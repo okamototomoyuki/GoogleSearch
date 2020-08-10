@@ -69,7 +69,7 @@ let match
 
 // https://regex101.com/r/OtNjwo/1
 const configEditor = new RegExp(/css:.|\n*}/gmi)
-while (( match = configEditor.exec(rollupConfig)) != null) {
+while ((match = configEditor.exec(rollupConfig)) != null) {
   if (foundCSS) {
     const endOfCSSIndex = match.index + 1
     rollupConfig = rollupConfig.slice(0, endOfCSSIndex) + ",\n			preprocess: sveltePreprocess()," + rollupConfig.slice(endOfCSSIndex);
@@ -84,13 +84,20 @@ rollupConfig = rollupConfig.replace("commonjs(),", 'commonjs(),\n\t\ttypescript(
 fs.writeFileSync(rollupConfigPath, rollupConfig)
 
 // Add TSConfig
+// const tsconfig = `{
+//   "extends": "@tsconfig/svelte/tsconfig.json",
+
+//   "include": ["src/**/*"],
+//   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
+// }`
+// ※ Github Pages 公開用に public -> docs に変更
 const tsconfig = `{
   "extends": "@tsconfig/svelte/tsconfig.json",
 
   "include": ["src/**/*"],
-  "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
+  "exclude": ["node_modules/*", "__sapper__/*", "docs/*"],
 }`
-const tsconfigPath =  path.join(projectRoot, "tsconfig.json")
+const tsconfigPath = path.join(projectRoot, "tsconfig.json")
 fs.writeFileSync(tsconfigPath, tsconfig)
 
 // Delete this script, but not during testing
