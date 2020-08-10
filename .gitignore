@@ -1,0 +1,6 @@
+/node_modules/
+
+# ※ Github Pages で表示するために build 内もアップ
+#/public/build/
+
+.DS_Store
